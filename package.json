@@ -1,0 +1,19 @@
+{
+  "name": "sca-wf-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soichih/sca-wf-test.git"
+  },
+  "author": "Soichi Hayashi <hayashis@iu.edu> (http://soichi.us)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soichih/sca-wf-test/issues"
+  },
+  "homepage": "https://github.com/soichih/sca-wf-test#readme"
+}

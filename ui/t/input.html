@@ -1,0 +1,75 @@
+<sca-breadcrumb breads="appconf.breads" active="'input'"></sca-breadcrumb>
+<div class="container">
+    <h3>Add Input</h3>
+    <div class="page">
+        <div class="form-group">
+            <uib-tabset>
+                <uib-tab index="0" heading="Upload">
+                    <br>
+                    <p>Please upload .tar.gz files you'd like to process</p>
+                    <sca-wf-uploader instid="instance._id" taskid="appconf.upload_task_id" files="files"></sca-wf-uploader>
+                    <div class="pull-right">
+                        <button type="button" class="btn" ng-click="back()">Back</button>
+                        <button type="button" class="btn btn-primary" ng-click="doneupload(files)" ng-if="files.length > 0">Next</button>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="From URL">
+                    <br>
+                    <form ng-submit="fromurl(url)">
+                        <div class="form-group">
+                            <label for="subject">URL</label>
+                            <input type="text" class="form-control" ng-model="url" placeholder="http://somewhere.com/somepath/some.nifti" required>
+                        </div>
+                        <p>You can use following URLs to test</p>
+                        <ul ng-repeat="sample in appconf.sample_urls"> 
+                            <li>
+                                    <b>{{sample.name}}</b>
+                                    <p>{{sample.desc}}</p>
+                                    <a href="javascript:void(0);" ng-click="$parent.url = sample.url">{{sample.url}}</a>
+                            </li>
+                        </ul>
+                        <div class="pull-right">
+                            <button type="button" class="btn" ng-click="back()">Back</button>
+                            <button type="submit" class="btn btn-primary" ng-disabled="!url">Next</button>
+                        </div>
+                    </form>
+                </uib-tab>
+                <uib-tab index="2" heading="From SDA">
+                    <br>
+                    <p class="alert alert-warning" ng-if="hpss_resources.length == 0">You don't have any HPSS resource registered</p>
+                    <div ng-if="hpss_resources.length > 0">
+                        <form ng-submit="fromsda()">
+                            <div class="form-group">
+                                <label for="subject">Account</label>
+                                <!--
+                                <ui-select ng-model="sda_config.resource" title="Choose SDA account">
+                                    <ui-select-match placeholder="Enter SDA account">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="resource in hpss_resourcesx">
+                                        {{resource.name}}
+                                    </ui-select-choices>
+                                </ui-select>
+                                -->
+                                <select class="form-control" ng-model="instance.config.sda.resource" ng-options="r.name for r in hpss_resources"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">SDA Path</label>
+                                <input type="text" class="form-control" ng-model="instance.config.sda.path" placeholder="/some/hpss/dir/life_brain_data.tar.gz" required>
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn" ng-click="back()">Back</button>
+                                <button type="submit" class="btn btn-primary" ng-disabled="!instance.config.sda.path">Next</button>
+                            </div>
+                            <p>Sample paths..</p>
+                            <p>test/brain/life_demo_data_sda1.tar.gz</p>
+                            <p>test/brain/life_demo_data_sda2.tar.gz</p>
+                            <p>test/brain/life_demo_data_sda3.tar.gz</p>
+                        </form>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
+            <br clear="both">
+        </div>
+    </div>
+    <br>
+</div>
+

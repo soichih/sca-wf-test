@@ -1,0 +1,58 @@
+<sca-breadcrumb breads="appconf.breads" active="'tasks'"></sca-breadcrumb>
+<div class="container">
+    <h2>New Task</h2>
+
+    <div class="page">
+        <form ng-submit="submit()" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Service</label>
+                <div class="col-sm-10">
+                    <select class="form-control" ng-model="task.service" required="true">
+                        <option ng-repeat="service in services" ng-value="service.name">{{service.name}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Name</label>
+                <div class="col-sm-10">
+                    <input type="text" ng-model="task.name" class="form-control"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Description</label>
+                <div class="col-sm-10">
+                    <textarea ng-model="task.desc" class="form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Config</label>
+                <div class="col-sm-10">
+                    <textarea ng-model="task.config" class="form-control" rows="5" placeholder="JSON object"></textarea>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Task Dependencies</label>
+                <div class="col-sm-10">
+                    <input type="text" ng-model="task.deps" class="form-control" placeholder="String[]"></input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Resource Dependencies</label>
+                <div class="col-sm-10">
+                    <input type="text" ng-model="task.resource_deps" class="form-control" placeholder="String[]"></input>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="pull-right">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
