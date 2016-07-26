@@ -51,8 +51,14 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
     });
 
     $scope.submit = function() {
+        //parse jsons
+        if($scope.task.config) $scope.task.config = JSON.parse($scope.task.config);
+        if($scope.task.resource_deps) $scope.task.resource_deps = JSON.parse($scope.task.resource_deps);
+        if($scope.task.deps) $scope.task.deps = JSON.parse($scope.task.deps);
+        console.dir($scope.task);
         $http.post($scope.appconf.wf_api+"/task", $scope.task)
         .then(function(res) {
+            console.dir(res);
             toaster.pop("success", "Submitted a new task");
             $location.path("/task/"+res.data.task._id);
         }, function(res) {
