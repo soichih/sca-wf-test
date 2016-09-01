@@ -55,7 +55,7 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
         if($scope.task.config) $scope.task.config = JSON.parse($scope.task.config);
         if($scope.task.resource_deps) $scope.task.resource_deps = JSON.parse($scope.task.resource_deps);
         if($scope.task.deps) $scope.task.deps = JSON.parse($scope.task.deps);
-        console.dir($scope.task);
+        //console.dir($scope.task);
         $http.post($scope.appconf.wf_api+"/task", $scope.task)
         .then(function(res) {
             console.dir(res);
@@ -115,8 +115,8 @@ function($scope, menu,  scaMessage, toaster, jwtHelper, $http, $location, $route
         limit: 1,
     }})
     .then(function(res) {
-        if(res.data[0]) {
-            $scope.input_task = res.data[0];
+        if(res.data.tasks[0]) {
+            $scope.input_task = res.data.tasks[0];
             $scope.inputs = $scope.input_task.products.files;
             $scope.inputs.forEach(function(file) {
                 file.checked = true;
@@ -280,7 +280,7 @@ function($scope, menu,  scaMessage, toaster, jwtHelper, $http, $location, $route
             }
         }})
         .then(function(res) {
-            $scope.tasks = res.data;
+            $scope.tasks = res.data.tasks;
         }, function(res) {
             if(res.data && res.data.message) toaster.error(res.data.message);
             else toaster.error(res.statusText);
