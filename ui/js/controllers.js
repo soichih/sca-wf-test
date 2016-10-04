@@ -22,26 +22,9 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
         $scope.instance = _instance;
         console.dir($scope.instance);
         $scope.task.instance_id = _instance._id; 
-        
-        /*
-        //load sda resources
-        $http.get($scope.appconf.wf_api+"/resource", {params: {
-            where: {type: 'hpss'},
-        }})
-        .then(function(res) {
-            $scope.hpss_resources = res.data;
-            if(res.data.length > 0) {
-                if(!$scope.instance.config) $scope.instance.config = {};
-                if(!$scope.instance.config.sda) $scope.instance.config.sda = {};
-                $scope.instance.config.sda.resource = res.data[0];
-            }
-        }, function(res) {
-            if(res.data && res.data.message) toaster.error(res.data.message);
-            else toaster.error(res.statusText);
-        });
-        */
     });
 
+    /*
     $http.get($scope.appconf.wf_api+"/service")
     .then(function(res) {
         $scope.services = res.data.services;
@@ -49,6 +32,7 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
         if(res.data && res.data.message) toaster.error(res.data.message);
         else toaster.error(res.statusText);
     });
+    */
 
     $scope.submit = function() {
         //parse jsons
