@@ -14,6 +14,7 @@ var app = angular.module('app', [
     'sca-ng-wf',
     'sca-shared',
     'sca-product-raw',
+    'yaru22.angular-timeago',
 ]);
 
 //can't quite do the slidedown animation through pure angular/css.. borrowing slideDown from jQuery..
