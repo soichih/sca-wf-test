@@ -1,0 +1,11 @@
+<sca-breadcrumb breads="appconf.breads" active="'tasks'"></sca-breadcrumb>
+<div class="container">
+    <h3>{{task.name}}</h3>
+    <div class="page">
+        <sca-wf-taskdeps taskid="taskid"></sca-wf-taskdeps>
+        <hr>
+        <button type="button" class="btn pull-right" ng-click="back()">Back</button>
+        <br clear="both">
+    </div>
+</div>
+

@@ -16,6 +16,7 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
 
     $scope.task = {
         service: "soichih/sca-service-noop",
+        config: "{\"test\": true}",
     };
 
     instance.then(function(_instance) {
@@ -23,16 +24,6 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
         console.dir($scope.instance);
         $scope.task.instance_id = _instance._id; 
     });
-
-    /*
-    $http.get($scope.appconf.wf_api+"/service")
-    .then(function(res) {
-        $scope.services = res.data.services;
-    }, function(res) {
-        if(res.data && res.data.message) toaster.error(res.data.message);
-        else toaster.error(res.statusText);
-    });
-    */
 
     $scope.submit = function() {
         //parse jsons
@@ -45,38 +36,30 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
             console.dir(res);
             toaster.pop("success", "Submitted a new task");
             $location.path("/task/"+res.data.task._id);
+            if($scope.notification) request_notification(res.data.task);
         }, function(res) {
             if(res.data && res.data.message) toaster.error(res.data.message);
             else toaster.error(res.statusText);
         });
     }
 
-    /*
-    function do_import(download_task) {
-        $http.post($scope.appconf.wf_api+"/task", {
-            instance_id: $scope.instance._id,
-            service: "soichih/sca-product-life", //invoke product-nifti's importer
+    function request_notification(task) {
+        $http.post($scope.appconf.event_api+"/notification", {
+            event: "wf.task.finished",
+            handler: "email",
             config: {
-                source_dir: download_task._id+"/download" //import source
+                task_id: task._id,
+                subject: "test task completed",
+                message: JSON.stringify(task, null,4),
             },
-            deps: [download_task._id],
-        })
-        .then(function(res) {
-            var import_task = res.data.task;
-            //$location.path("/import/"+$routeParams.instid+"/"+res.data.task.progress_key);
-            $location.path("/import/"+$routeParams.instid+"/"+import_task._id);
+        }).then(function(res) {
+            console.log("requested finish notification");
+            console.dir(res);
         }, function(res) {
             if(res.data && res.data.message) toaster.error(res.data.message);
             else toaster.error(res.statusText);
         });
     }
-    */
-
-    /*
-    $scope.back = function() {
-        $location.path("/process/"+$routeParams.instid);
-    }
-    */
 }]);
 
 //center of the star
@@ -110,23 +93,6 @@ function($scope, menu,  scaMessage, toaster, jwtHelper, $http, $location, $route
         if(res.data && res.data.message) toaster.error(res.data.message);
         else toaster.error(res.statusText);
     });
-
-    /*
-    //load previously submitted tasks
-    $http.get($scope.appconf.wf_api+"/task", {params: {
-        //find one with nifti output
-        where: {
-            instance_id: $routeParams.instid,
-            service: "soichih/sca-service-life",
-        }
-    }})
-    .then(function(res) {
-        $scope.tasks = res.data;
-    }, function(res) {
-        if(res.data && res.data.message) toaster.error(res.data.message);
-        else toaster.error(res.statusText);
-    });
-    */
 
     //make sure user has place to submit the main service (if not.. alert user!)
     $http.get($scope.appconf.wf_api+"/resource/best", {params: {
@@ -228,18 +194,6 @@ function($scope, menu, scaMessage, toaster, jwtHelper, $http, $location, $routeP
        //also load resource info
         if(task.resource_id && !$scope.resource) {
             $scope.resource = {}; //prevent double loading if task gets updated while waiting
-            /*
-            $http.get($scope.appconf.wf_api+"/resource", {params: {
-                where: {_id: task.resource_id}
-            }})
-            .then(function(res) {
-                $scope.resource = res.data[0];
-                //console.dir($scope.resource);
-            }, function(res) {
-                if(res.data && res.data.message) toaster.error(res.data.message);
-                else toaster.error(res.statusText);
-            });
-            */
             $scope.resource = scaResource.get(task.resource_id);
         }
     });
