@@ -18,6 +18,7 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
         service: "soichih/sca-service-noop",
         config: "{\"test\": true}",
     };
+    $scope.notification = true;
 
     instance.then(function(_instance) {
         $scope.instance = _instance;
@@ -50,7 +51,22 @@ function($scope, toaster, $http, jwtHelper, scaMessage, instance, $routeParams, 
             config: {
                 task_id: task._id,
                 subject: "test task completed",
-                message: JSON.stringify(task, null,4),
+                message: "you have requested\n\n"+JSON.stringify(task, null,4),
+            },
+        }).then(function(res) {
+            console.log("requested finish notification");
+            console.dir(res);
+        }, function(res) {
+            if(res.data && res.data.message) toaster.error(res.data.message);
+            else toaster.error(res.statusText);
+        });
+        $http.post($scope.appconf.event_api+"/notification", {
+            event: "wf.task.failed",
+            handler: "email",
+            config: {
+                task_id: task._id,
+                subject: "test task failed",
+                message: "you have requested\n\n"+JSON.stringify(task, null,4),
             },
         }).then(function(res) {
             console.log("requested finish notification");
